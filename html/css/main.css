@@ -1,0 +1,103 @@
+body {
+    font-family: Arial,sans-serif;
+    padding: 0;
+    margin: 0;
+    
+}
+header {
+    background: url(../img/couvboy.jpg) no-repeat center top / cover;
+    padding-bottom: 250px;   
+}
+
+div {
+    box-sizing: border-box;
+}
+.clearfix::after{
+    display: table;
+    content: '';
+    width: 100%;
+    clear: both;
+}
+.container{
+    width: 930px;
+    margin: 0 auto;
+}
+
+nav{
+    float: left;;
+    
+}
+.heading_menu{
+    padding: 0; 
+    margin: 0;
+    display: block;
+}
+.heading_menu li {
+    float: left;
+    display: block;
+    margin-right:  45px;
+    margin-top: 45px;
+}
+.logotype{
+    color:white;
+    font-weight: bold;
+    float: right;
+    margin-top: 7px;
+    font-size: 30px;
+    text-decoration: none;
+    text-transform: uppercase;
+    
+}
+.button_searh_games{
+    background: yellow;
+    color: black;
+    border-radius: 5px;
+    padding: 10px 10px;;
+    text-align: center;
+    float: right;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+.button_sign_in{
+    background: yellow;
+    color: black;
+    margin-top: 45px;
+    border-radius: 5px;
+    padding: 10px 10px;;
+    text-align: center;
+    float: right;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+.header_title{
+    text-align: center;
+    color:white;
+    padding-top: 160px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+.header_title_first{
+    font-size: 20px;
+}
+.header_title h1{
+    font-size:50px;
+    padding-top: 0;
+}
+.button_start_game{
+    background: yellow;
+    color: black;
+    border-radius: 5px;
+    display: block;
+    width: 200px;
+    padding: 20px 0;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0 auto;
+    text-decoration: none;
+    margin-top: 60px;
+    
+}
