@@ -1,0 +1,78 @@
+body {
+    font-family: Arial,sans-serif;
+    padding: 0;
+    margin: 0;
+    color: gray;    
+}
+div {
+    box-sizing: border-box;
+}
+header {
+    background:white;
+    height: 120px;
+    border-bottom-style: solid;
+    border-bottom-color: #ccc;
+}
+.clearfix::after{
+    display: table;
+    content: '';
+    width: 100%;
+    clear: both;
+}
+.container{
+    width: 930px;
+    margin: 0 auto;
+}
+nav{
+    float: left;   
+}
+.heading_menu{
+    
+    padding: 0; 
+    margin: 0;
+    display: block;
+}
+.heading_menu li {
+    float: left;
+    display: block;
+    margin-right:  45px;
+    margin-top: 45px;
+}
+.logotype{
+    color:black;
+    font-weight: bold;
+    float: right;
+    margin-top: 7px;
+    font-size: 30px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+#authorization_registration{
+    background: #e9e7e7;
+    padding-bottom: 100vh;
+}
+.authorization_registration_menu fieldset{
+    justify-content: center;
+    background: white;
+    border-radius: 10px;   
+    margin-right: 800px;
+    margin-left: 350px;
+}
+.authorization_registration_menu fieldset h2{
+    margin-bottom: 50px;
+}
+.authorization_registration_menu fieldset p{
+    margin-bottom: 5px;
+}
+.authorization_registration_menu fieldset input{
+    margin-bottom: 20px;
+}
+.authorization_registration_menu {
+    padding-top: 100px;    
+}
+.registration{
+    text-align: center;
+}
+.registration a{
+    text-decoration: none;
+}
