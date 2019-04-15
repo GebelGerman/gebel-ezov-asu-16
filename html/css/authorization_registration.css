@@ -47,7 +47,7 @@ nav{
     text-decoration: none;
     text-transform: uppercase;
 }
-#authorization_registration{
+section {
     background: #e9e7e7;
     padding-bottom: 100vh;
 }
