@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/authorization_registration.css">
     <title>Регистрация</title>
+    
 </head>
 <body>
     <header>
@@ -26,7 +27,7 @@
     <section id="authorization_registration">
         <div class="container">
             <div class="authorization_registration_menu">
-                <form action="mailto:gg.98@mail.ru" enctype="text/plan" >
+                <form action="mailto:gg.98@mail.ru" method="POST" enctype="text/plan" id="form" >
                     <fieldset >
                         <h2>Регистрация</h2>
                         <p>Придумайте ник</p>
@@ -35,11 +36,38 @@
                         <input type="text" id="email" placeholder="например, b@ng.com">
                         <p>Пароль</p>
                         <input type="password" id="password" placeholder="например, ••••••••••">
-                        <input type="button" id="button" value="OK">
+                        <input type="button" id="button" value="OK" onclick="valid(document.getElementById('form'))">
                     </fieldset>
                 </form>
             </div>  
         </div>            
     </section>
+    <script type='text/javascript'>
+        function valid(form){
+            var fail;
+            var ok = true;
+            var nickname = form.nickname.value;
+            var email = form.email.value;
+            var password = form.password.value;
+
+            var checkEmail = /^[0-9a-z._-]+@[a-z]+\.[a-z]{2,5}/;
+
+            if (nickname == "" || nickname == " "){
+                fail = "Вы не ввели ник";
+                ok = false;
+            } else if (!checkEmail.test(email)){
+                fail = "Вы ввели email не правильно";
+                ok = false;
+            } else if (password == ""){
+                fail = "Вы не ввели пароль";
+                ok = false;
+            } 
+            if (!ok) {
+                alert(fail);
+            } else {
+                window.location = 'https://google.com'
+            }
+        }
+    </script>
 </body>
 </html>
