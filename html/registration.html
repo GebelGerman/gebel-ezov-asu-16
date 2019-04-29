@@ -45,7 +45,7 @@
     <script type='text/javascript'>
         function valid(form){
             var fail;
-            var ok = true;
+            var error = false;
             var nickname = form.nickname.value;
             var email = form.email.value;
             var password = form.password.value;
@@ -54,15 +54,15 @@
 
             if (nickname == "" || nickname == " "){
                 fail = "Вы не ввели ник";
-                ok = false;
+                error = true;
             } else if (!checkEmail.test(email)){
                 fail = "Вы ввели email не правильно";
-                ok = false;
+                error = true;
             } else if (password == ""){
                 fail = "Вы не ввели пароль";
-                ok = false;
+                error = true;
             } 
-            if (!ok) {
+            if (error) {
                 alert(fail);
             } else {
                 window.location = 'https://google.com'
