@@ -27,14 +27,11 @@ def parse(html):
         })
     return films
 
-
 def main():
     films = parse(get_html(url))
     for film in films:
         print('----------')
-        print(film)
-        
-    
+        print(film)     
 
 if __name__ == "__main__":
     main()
