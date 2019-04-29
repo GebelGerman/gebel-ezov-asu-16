@@ -10,28 +10,27 @@ def get_html(url):
     html = urlopen(req).read()
     return html
 
-def parse(html):#сделать генератор
-    soup = BeautifulSoup(html, "html.parser")
+def parse(soup, index):#сделать генератор
     table = soup.find(class_="project_vertical_list")
-    films = []
-    for row in table.find_all(class_="project_vertical_item"):
-        name = row.find(class_='pvi-title')
-        description = row.find(class_='pvi-description')
-        text = str(description.text)
-        a = text.split('\n')
-        films.append({
-            'Название': name.text,
-            'Жанр': a[1],
-            'Год': a[2],
-            'Страна': a[3]
-        })
-    return films
+    row = table.find_all(class_="project_vertical_item")[index]
+    name = row.find(class_='pvi-title')
+    description = row.find(class_='pvi-description')
+    text = str(description.text)
+    a = text.split('\n')
+    film = {
+        'Название': name.text,
+        'Жанр': a[1],
+        'Год': a[2],
+        'Страна': a[3]
+    }
+    return film
 
 def main():
-    films = parse(get_html(url))
-    for film in films:
-        print('----------')
-        print(film)     
+    soup = BeautifulSoup(get_html(url), "html.parser")
+    for i in range(1,10):
+        print('----------------------------')
+        print(parse(soup,i))
+
 
 if __name__ == "__main__":
     main()
