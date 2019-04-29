@@ -10,7 +10,7 @@ def get_html(url):
     html = urlopen(req).read()
     return html
 
-def parse(html):
+def parse(html):#сделать генератор
     soup = BeautifulSoup(html, "html.parser")
     table = soup.find(class_="project_vertical_list")
     films = []
