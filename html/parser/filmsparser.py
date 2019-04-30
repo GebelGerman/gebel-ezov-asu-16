@@ -14,9 +14,7 @@ def parse(soup, index):#сделать генератор
     table = soup.find(class_="project_vertical_list")
     row = table.find_all(class_="project_vertical_item")[index]
     name = row.find(class_='pvi-title')
-    description = row.find(class_='pvi-description')
-    text = str(description.text)
-    a = text.split('\n')
+    a = row.find(class_='pvi-description').text.split('\n')
     film = {
         'Название': name.text,
         'Жанр': a[1],
