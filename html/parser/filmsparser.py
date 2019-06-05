@@ -1,10 +1,6 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 
-
-url = "https://videomore.ru/films/komediya"
-
-
 def get_html(url):
     req = Request(url)
     html = urlopen(req).read()
@@ -24,6 +20,7 @@ def parse(soup, index):#сделать генератор
     return film
 
 def main():
+    url = "https://videomore.ru/films/komediya"
     soup = BeautifulSoup(get_html(url), "html.parser")
     for i in range(1,10):
         print('----------------------------')
