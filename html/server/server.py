@@ -3,20 +3,28 @@
 import socket
 import sqlite3 
 import json
+import hashlib
+
+def getMd5String(string:str):
+    m = hashlib.md5()
+    m.update(string.encode('utf-8'))
+    md5String=m.digest()
+    return md5String
 
 conn = sqlite3.connect('web.db')
 cur = conn.cursor()
 
+
 def addUser(jsonn):
     jsonn = json.loads(jsonn)
-    print(jsonn['nickname']+" "+jsonn['email']+" "+jsonn['password'])
-    cur.execute("INSERT INTO users (nickname, email, password) VALUES(?,?,?)", (jsonn['nickname'],jsonn['email'],jsonn['password']))
+    passwordMd5 = getMd5String(jsonn['password'])
+    cur.execute("INSERT INTO users (nickname, email, password) VALUES(?,?,?)", (jsonn['nickname'],jsonn['email'],passwordMd5))
     conn.commit()
 
 def searchUser(jsonn):
     jsonn = json.loads(jsonn)
-    print(jsonn['email']+" "+jsonn['password'])
-    cur.execute('SELECT * FROM users WHERE email=? AND password=?', (jsonn['email'],jsonn['password']))
+    passwordMd5 = getMd5String(jsonn['password'])
+    cur.execute('SELECT * FROM users WHERE email=? AND password=?', (jsonn['email'],passwordMd5))
     mas = cur.fetchall()
     if len(mas)!=0:
         return True
