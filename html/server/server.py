@@ -18,13 +18,13 @@ cur = conn.cursor()
 def addUser(jsonn):
     jsonn = json.loads(jsonn)
     passwordMd5 = getMd5String(jsonn['password'])
-    cur.execute("INSERT INTO users (nickname, email, password) VALUES(?,?,?)", (jsonn['nickname'],jsonn['email'],passwordMd5))
+    cur.execute("INSERT INTO users (nickname, email, password) VALUES(?,?,?)", (str(jsonn['nickname']),str(jsonn['email']),passwordMd5))
     conn.commit()
 
 def searchUser(jsonn):
     jsonn = json.loads(jsonn)
     passwordMd5 = getMd5String(jsonn['password'])
-    cur.execute('SELECT * FROM users WHERE email=? AND password=?', (jsonn['email'],passwordMd5))
+    cur.execute('SELECT * FROM users WHERE email=? AND password=?', (str(jsonn['email']),passwordMd5))
     mas = cur.fetchall()
     if len(mas)!=0:
         return True
