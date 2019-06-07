@@ -26,19 +26,51 @@
     <section id="authorization_registration">
         <div class="container">
             <div class="authorization_registration_menu">
-                <form action="mailto:gg.98@mail.ru" enctype="text/plan" >
+                <form method="POST" enctype="text/plan" action="/reg" id="form">
                     <fieldset >
                         <h2>Авторизация</h2>
                         <p>Электронная почта</p>
                         <input type="text" id="email" placeholder="например, b@ng.com">
                         <p>Пароль</p>
                         <input type="password" id="password" placeholder="например, ••••••••••">
-                        <input type="button" id="button" value="OK">
+                        <input type="button" id="button" value="OK" onclick="validAuth(document.getElementById('form'))">
                     </fieldset>
                 </form>
                 <p class="registration">Если вы еще не зарегестрированы, зарегестрироваться можно <a href="/reg">здесь</a>.</p>
             </div>  
         </div>            
     </section>
+    <script type='text/javascript'>
+        function validAuth(form){
+            var fail;
+            var error = false;
+            var email = form.email.value;
+            var password = form.password.value;
+    
+            var checkEmail = /^[0-9a-z._-]+@[a-z]+\.[a-z]{2,5}/;
+    
+            if (!checkEmail.test(email)){
+                fail = "Вы ввели email не правильно";
+                error = true;
+            } else if (password == "" || password == " "){
+                fail = "Вы не ввели пароль";
+                error = true;
+            } 
+            if (error) {
+                alert(fail);
+            } else {
+                var xhr = new XMLHttpRequest();
+                var json = JSON.stringify({
+                    email: email,
+                    password: password
+                });
+                xhr.open("POST", '/auth', true);
+                xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+                xhr.send(json);
+                window.location = '/user';
+            }
+        }        
+    </script>
 </body>
 </html>

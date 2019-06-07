@@ -1,37 +1,78 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import socket
-import views
+import sqlite3 
+import json
 
+conn = sqlite3.connect('web.db')
+cur = conn.cursor()
 
+def addUser(jsonn):
+    jsonn = json.loads(jsonn)
+    print(jsonn['nickname']+" "+jsonn['email']+" "+jsonn['password'])
+    cur.execute("INSERT INTO users (nickname, email, password) VALUES(?,?,?)", (jsonn['nickname'],jsonn['email'],jsonn['password']))
+    conn.commit()
+
+def searchUser(jsonn):
+    jsonn = json.loads(jsonn)
+    print(jsonn['email']+" "+jsonn['password'])
+    cur.execute('SELECT * FROM users WHERE email=? AND password=?', (jsonn['email'],jsonn['password']))
+    mas = cur.fetchall()
+    if len(mas)!=0:
+        return True
+    else: 
+        return False
 
 URLS = {
     '/':'../index.html',
     '/auth':'../authorization.html',
     '/reg':'../registration.html',
+    '/user':'../user.html'
 }
 
 def parseRequest(req):
     parse = req.split(' ')
     return (parse[0], parse[1])
 
+def parsePOST(req):
+    parse = req.split('no-cache\r\n\r\n')
+    return parse[1]
+
+
 def genHeaders(method, url):
+    if method=='POST':
+        if url=='/reg':
+            return ('HTTP/1.1 200 OK\n\n', 'reg')
+        if url=='/auth':
+            return ('HTTP/1.1 200 OK\n\n', 'auth')
     if not (url in URLS):
         try:
             with open('..'+url, 'r') as file:
                 file.close()
             return ('HTTP/1.1 200 OK\n\n', '..'+url)
         except FileNotFoundError:
-            print('файл не найден')
-            return ('HTTP/1.1 404 Not found\n\n', 0)
+            return ('HTTP/1.1 404 Not found\n\n', '')
     else:
         return ('HTTP/1.1 200 OK\n\n', URLS[url])
 
 def genResponce(req):
     method, url = parseRequest(req)
     headers, filename = genHeaders(method, url)
-    if filename != 0:
+    if filename != '':
+        if filename == 'reg':
+            addUser(parsePOST(req))           
+            return (headers, 'txt')
+        if filename == 'auth':
+            if searchUser(parsePOST(req)): 
+                with open('../user.html','w') as file:
+                    file.write("<h1>IT IS YOUR PAGE!!!</h1>")
+                    file.close()
+                return (headers, 'txt')
+            else: 
+                with open('../user.html','w') as file:
+                    file.write("<h1>ERROR 404</h1><p>Not Found</p>")
+                    file.close()
+                return (headers, 'txt')
         if 'img' in filename:
             with open(filename, 'rb') as file:
                 return (file.read(), 'img')
@@ -39,7 +80,7 @@ def genResponce(req):
             with open(filename, 'r', encoding='utf-8') as file:
                 return (headers + file.read(), 'txt')
     else: 
-        return (headers, 'txt')
+        return (headers+'<h1>ERROR 404</h1><p>Not Found</p>', 'txt')
 
 def run():
     serverSock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -57,8 +98,8 @@ def run():
             print()
             print(addr)
             
-            response, file = genResponce(request.decode())
-            if file == 'img':
+            response, filename = genResponce(request.decode())
+            if filename == 'img':
                 clientSock.send(response)
                 clientSock.close()     
             else:

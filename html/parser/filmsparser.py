@@ -22,7 +22,7 @@ def parse(soup, index):#сделать генератор
 def main():
     url = "https://videomore.ru/films/komediya"
     soup = BeautifulSoup(get_html(url), "html.parser")
-    for i in range(1,10):
+    for i in range(0,10):
         print('----------------------------')
         print(parse(soup,i))
 
