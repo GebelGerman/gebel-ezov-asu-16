@@ -5,30 +5,38 @@ import sqlite3
 import json
 import hashlib
 
-def getMd5String(string:str):
-    m = hashlib.md5()
-    m.update(string.encode('utf-8'))
-    md5String=m.digest()
-    return md5String
+def hash(string:str):
+    s = hashlib.sha256()
+    s.update(string.encode('utf-8'))
+    news=s.hexdigest()
+    return news
 
 conn = sqlite3.connect('web.db')
 cur = conn.cursor()
 
+# def parseJsonAuth(jsonn):
+#     jsonn = json.loads(jsonn)
+#     return (jsonn['email'], jsonn['password'])
+# def parseJsonReg(jsonn):
+#     jsonn = json.loads(jsonn)
+#     return (jsonn['nickname'],jsonn['email'], jsonn['password'])
+
 
 def addUser(jsonn):
     jsonn = json.loads(jsonn)
-    passwordMd5 = getMd5String(jsonn['password'])
-    cur.execute("INSERT INTO users (nickname, email, password) VALUES(?,?,?)", (str(jsonn['nickname']),str(jsonn['email']),passwordMd5))
+    string = jsonn['password']+jsonn['nickname']
+    password = hash(string)
+    cur.execute("INSERT INTO users (nickname, email, password) VALUES(?,?,?)", (str(jsonn['nickname']),str(jsonn['email']),password))
     conn.commit()
 
 def searchUser(jsonn):
     jsonn = json.loads(jsonn)
-    passwordMd5 = getMd5String(jsonn['password'])
-    cur.execute('SELECT * FROM users WHERE email=? AND password=?', (str(jsonn['email']),passwordMd5))
-    mas = cur.fetchall()
-    if len(mas)!=0:
-        return True
-    else: 
+    cur.execute("SELECT nickname, password FROM users WHERE email=?", (str(jsonn['email']),))
+    try:
+        result = cur.fetchone()
+        password = hash(jsonn['password']+str(result[0]))
+        return password == result[1]
+    except Exception:
         return False
 
 URLS = {
